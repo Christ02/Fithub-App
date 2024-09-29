@@ -4,13 +4,23 @@ const db = require('../config/db');
 
 // Ruta para crear un nuevo ejercicio
 router.post('/', (req, res) => {
-    const { userId, exerciseType, duration, caloriesBurned, date } = req.body;
-    const sql = 'INSERT INTO exercise (userId, exerciseType, duration, caloriesBurned, date) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [userId, exerciseType, duration, caloriesBurned, date], (err, result) => {
-      if (err) throw err;
-      res.status(201).send('Ejercicio agregado');
-    });
+  const { userId, exerciseType, duration, caloriesBurned, date } = req.body;
+  
+  const exerciseDate = date ? date : new Date().toISOString().split('T')[0];  // Usar la fecha actual si no se proporciona
+
+  const sql = `
+    INSERT INTO exercise (userId, exerciseType, duration, caloriesBurned, date) 
+    VALUES (?, ?, ?, ?, ?)
+  `;
+  
+  db.query(sql, [userId, exerciseType, duration, caloriesBurned, exerciseDate], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Registro de ejercicio creado exitosamente' });
   });
+});
+
 
 // Obtener todos los ejercicios de un usuario específico
 router.get('/:userId', (req, res) => {
