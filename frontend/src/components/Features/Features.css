@@ -1,0 +1,69 @@
+/* frontend/src/components/Features.css */
+.features {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.features__title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.features__subtitle {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 40px;
+}
+
+.features__container {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    padding: 0 100px;
+    flex-wrap: wrap;
+}
+
+.feature {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: center;
+    flex-basis: 30%;
+
+}
+
+.feature__icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.feature__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+.feature__text {
+    font-size: 1rem;
+    color: #555;
+}
+/* Media query para pantallas más pequeñas */
+@media (max-width: 1024px) {
+    .feature {
+        flex-basis: 45%; /* Cambia el ancho a 45% en pantallas medianas */
+    }
+}
+
+/* Media query para pantallas móviles */
+@media (max-width: 768px) {
+    .feature {
+        flex-basis: 100%; /* En pantallas pequeñas, las tarjetas ocupan el 100% del ancho */
+        margin-bottom: 20px; /* Añade espacio entre las tarjetas cuando se apilen */
+    }
+}
