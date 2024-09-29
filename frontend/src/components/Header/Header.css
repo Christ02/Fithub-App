@@ -1,0 +1,36 @@
+/* frontend/src/components/Header.css */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+}
+
+.header__logo {
+  margin-left: 20px;
+}
+
+.logo__text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff; 
+  margin: 0;
+}
+
+.header__auth {
+  margin-right: 20px;
+}
+
+.header__login {
+  font-size: 16px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+}
+
+.header__login:hover {
+  text-decoration: underline;
+}
