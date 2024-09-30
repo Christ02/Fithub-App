@@ -5,6 +5,8 @@
     padding: 50px;
     max-width: 1200px;
     margin: 0 auto;
+    text-align: left;
+
     
   }
   
@@ -16,6 +18,8 @@
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: left;
+
   }
   
   .hero-content p {
@@ -49,7 +53,7 @@
   @media (max-width: 768px) {
     .hero-container {
       flex-direction: column;
-      text-align: center;
+      text-align: left;
     }
   
     .hero-content {
