@@ -1,17 +1,19 @@
-// frontend/src/App.js
 import React from 'react';
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import Features from './components/Features/Features';
-//import Footer from './components/Footer';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage/LandingPage'; 
+// import Login from './pages/Login/Login'; 
+// import SignUpPage from './pages/SignUp/SignupPage';
+import DashboardPage from './pages/dashboard/DashboardPage'
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Hero/>
-      <Features/>
-      </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} /> {/* Pagina principal */}
+
+        <Route path="/dashboard" element={<DashboardPage/>} /> {/* Ruta de dashboard */}
+      </Routes>
+    </Router>
   );
 }
 

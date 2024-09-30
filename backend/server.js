@@ -5,26 +5,43 @@ const db = require('./config/db');
 const exerciseRoutes = require('./routes/exercise');
 const nutritionRoutes = require('./routes/nutrition');
 const sleepRoutes = require('./routes/sleep');
-const userRoutes = require('./routes/users');  // Asegúrate de que esta ruta está correctamente conectada.
+const userRoutes = require('./routes/users');
 
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());  // Habilita el procesamiento de JSON
-app.use(cors());  // Permite CORS
+app.use(bodyParser.json());  
+app.use(cors());  
+
+// Verificar conexión a la base de datos
+db.connect((err) => {
+  if (err) {
+    console.error('Error conectando a la base de datos:', err.message);
+    process.exit(1); // Termina si hay error
+  } else {
+    console.log('Conexión a la base de datos establecida');
+  }
+});
 
 // Rutas
 app.use('/exercise', exerciseRoutes);
 app.use('/nutrition', nutritionRoutes);
 app.use('/sleep', sleepRoutes);
-app.use('/users', userRoutes);  // Asegúrate de que esta línea está activa.
+app.use('/users', userRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.send('API de Fithub funcionando');
 });
 
+// Middleware para manejar errores globales
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Algo salió mal, por favor intenta de nuevo.');
+});
+
 // Iniciar servidor
-app.listen(5000, () => {
-  console.log('Servidor ejecutándose en el puerto 5000');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });
