@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const db = require('./config/db');
 const exerciseRoutes = require('./routes/exercise');
@@ -10,14 +9,14 @@ const userRoutes = require('./routes/users');
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());  
+app.use(express.json());  // Se usa express.json() en lugar de body-parser
 app.use(cors());  
 
 // Verificar conexión a la base de datos
 db.connect((err) => {
   if (err) {
     console.error('Error conectando a la base de datos:', err.message);
-    process.exit(1); // Termina si hay error
+    process.exit(1); 
   } else {
     console.log('Conexión a la base de datos establecida');
   }

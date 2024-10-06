@@ -1,0 +1,71 @@
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra ligera para resaltar el formulario */
+    border-radius: 8px; /* Bordes redondeados para una apariencia más moderna */
+    text-align: center; /* Centra el texto */
+  }
+  
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #333; /* Color del texto para el título */
+  }
+  
+  label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #333; /* Color del texto de las etiquetas */
+    text-align: left; /* Alineación izquierda para mejor legibilidad */
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #007bff; /* Añade color en el borde cuando se enfoca */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Resalta el input al enfocarlo */
+  }
+  
+  button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #007bff; /* Color de botón primario */
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  button:active {
+    background-color: #004099; /* Color al hacer clic */
+  }
+  
+  @media (max-width: 600px) {
+    .login-container {
+      padding: 1rem; /* Ajuste de padding para pantallas pequeñas */
+    }
+  
+    h2 {
+      font-size: 1.5rem; /* Ajuste de tamaño del texto en pantallas pequeñas */
+    }
+  }
+  

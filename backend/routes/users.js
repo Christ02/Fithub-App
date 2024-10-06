@@ -16,4 +16,9 @@ router.put('/:id', userController.updateUserById);
 // Ruta para eliminar un usuario por su ID
 router.delete('/:id', userController.deleteUserById);
 
+router.get('/email/:email', userController.getUserByEmail);
+
+router.get('/', userController.getAllUsers);
+
+
 module.exports = router;
