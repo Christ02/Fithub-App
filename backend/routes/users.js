@@ -7,6 +7,12 @@ const userController = require('../controllers/userController');
 // Ruta para crear un nuevo usuario
 router.post('/', userController.createUser);
 
+// Iniciar sesión (no requiere autenticación)
+router.post('/login', userController.loginUser);
+
+// Rutas protegidas (requieren autenticación)
+router.get('/user/:id', userController.verifyToken, userController.getUserById);
+
 // Ruta para obtener un usuario por su ID
 router.get('/:id', userController.getUserById);
 
