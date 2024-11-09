@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createExerciseRecord,
   getExerciseRecords,
+  getExerciseRecordsByDate,  // Importar la nueva función
   updateExerciseRecord,
   deleteExerciseRecord
 } = require('../controllers/ExerciseController');
@@ -13,6 +14,9 @@ router.post('/', createExerciseRecord);
 
 // Obtener todos los ejercicios de un usuario
 router.get('/:userId', getExerciseRecords);
+
+// Obtener ejercicios de un usuario en una fecha específica
+router.get('/:userId/by-date', getExerciseRecordsByDate);
 
 // Actualizar un ejercicio por ID
 router.put('/:id', updateExerciseRecord);

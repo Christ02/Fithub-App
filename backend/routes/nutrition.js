@@ -1,23 +1,26 @@
-// routes/nutrition.js
 const express = require('express');
 const router = express.Router();
 const {
   createNutritionRecord,
   getNutritionRecords,
   updateNutritionRecord,
-  deleteNutritionRecord
+  deleteNutritionRecord,
+  getNutritionRecordsByDate
 } = require('../controllers/NutritionController');
 
-// Crear un nuevo registro de nutrición
+// Ruta para crear un nuevo registro de nutrición
 router.post('/', createNutritionRecord);
 
-// Obtener todos los registros de nutrición de un usuario
+// Ruta para obtener todos los registros de nutrición de un usuario
 router.get('/:userId', getNutritionRecords);
 
-// Actualizar un registro nutricional por ID
+// Ruta para actualizar un registro de nutrición por ID
 router.put('/:id', updateNutritionRecord);
 
-// Eliminar un registro nutricional por ID
+// Ruta para eliminar un registro de nutrición por ID
 router.delete('/:id', deleteNutritionRecord);
+
+// Ruta para obtener registros de nutrición por usuario y fecha
+router.get('/:userId/by-date', getNutritionRecordsByDate);
 
 module.exports = router;

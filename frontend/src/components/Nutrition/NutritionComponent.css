@@ -1,0 +1,116 @@
+/* Centrar el contenedor en la pantalla */
+.nutrition-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-color: #f0f2f5; /* Color de fondo para diferenciar */
+}
+
+.nutrition-container {
+    max-width: 500px;
+    width: 100%; /* Asegura que no exceda el 100% del contenedor */
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: left;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.section-info,
+.section-records {
+    margin-bottom: 2rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.nutrition-container .record-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.nutrition-container .record-item p {
+    margin: 0.5rem 0;
+}
+
+.nutrition-container .record-item button {
+    width: 48%;
+    margin-right: 2%;
+}
+
+.nutrition-container .record-item button:last-child {
+    margin-right: 0;
+}
+
+.nutrition-container a {
+    color: #007bff;
+}
+
+.nutrition-container a:hover {
+    text-decoration: underline;
+}
+
+
+.back-button {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  

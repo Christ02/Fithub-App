@@ -34,6 +34,28 @@ const getExerciseRecords = (req, res) => {
   });
 };
 
+// Nueva función para obtener ejercicios de un usuario en una fecha específica
+const getExerciseRecordsByDate = (req, res) => {
+  const { userId } = req.params;
+  const { date } = req.query; // Tomar la fecha del parámetro de consulta
+
+  if (!userId || !date) {
+    return res.status(400).json({ error: 'Se requiere el ID del usuario y la fecha' });
+  }
+
+  const sql = 'SELECT * FROM exercise WHERE userId = ? AND date = ?';
+  
+  db.query(sql, [userId, date], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron ejercicios para esta fecha' });
+    }
+    res.json(results);
+  });
+};
+
 const updateExerciseRecord = (req, res) => {
   const { id } = req.params;
   const { exerciseType, duration, caloriesBurned, date } = req.body;
@@ -63,6 +85,7 @@ const deleteExerciseRecord = (req, res) => {
 module.exports = {
   createExerciseRecord,
   getExerciseRecords,
+  getExerciseRecordsByDate, 
   updateExerciseRecord,
   deleteExerciseRecord,
 };
