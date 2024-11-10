@@ -1,6 +1,12 @@
+// src/pages/dashboard/NutritionComponent.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createNutritionRecord, getNutritionRecordsByDate, updateNutritionRecord, deleteNutritionRecord } from '../../api/nutritionApi';
+import { 
+  createNutritionRecord, 
+  getNutritionRecords, // Suponiendo que tienes una función para obtener todos los registros
+  updateNutritionRecord, 
+  deleteNutritionRecord 
+} from '../../api/nutritionApi';
 import './NutritionComponent.css';
 
 const NutritionComponent = ({ userId }) => {
@@ -13,8 +19,7 @@ const NutritionComponent = ({ userId }) => {
     date: '',
     mealDescription: ''
   });
-  const [filterDate, setFilterDate] = useState(''); // Nueva variable para la fecha de filtro
-  
+
   const navigate = useNavigate();
 
   const formatDateForBackend = (dateString) => {
@@ -22,21 +27,20 @@ const NutritionComponent = ({ userId }) => {
     return `${year}-${month}-${day}`;
   };
 
-  const fetchNutritionRecordsByDate = async () => {
-    console.log("Botón de Ver Alimentos del Día presionado"); // Verificación
-    if (!filterDate) {
-      console.warn("No se ha seleccionado una fecha"); // Agrega una advertencia si no hay fecha seleccionada
-      return;
-    }
-
+  const fetchNutritionRecords = async () => {
+    console.log("Fetching all nutrition records"); // Verificación
     try {
-      const formattedDate = formatDateForBackend(filterDate);
-      const records = await getNutritionRecordsByDate(userId, formattedDate);
+      const records = await getNutritionRecords(userId); // Obtener todos los registros
       setNutritionRecords(records);
     } catch (error) {
-      console.error('Error obteniendo registros de nutrición por fecha:', error);
+      console.error('Error fetching nutrition records:', error);
     }
   };
+
+  useEffect(() => {
+    fetchNutritionRecords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,30 +48,53 @@ const NutritionComponent = ({ userId }) => {
   };
 
   const handleCreateRecord = async () => {
+    // Validación antes de crear el registro
+    if (!newRecord.mealDescription || !newRecord.date) {
+      alert('Por favor, completa la descripción de la comida y la fecha.');
+      return;
+    }
+
+    // Validar que los campos numéricos sean números
+    const { calories, protein, carbohydrates, fats } = newRecord;
+    if (
+      (calories && isNaN(calories)) ||
+      (protein && isNaN(protein)) ||
+      (carbohydrates && isNaN(carbohydrates)) ||
+      (fats && isNaN(fats))
+    ) {
+      alert('Por favor, ingresa valores numéricos válidos para calorías, proteínas, carbohidratos y grasas.');
+      return;
+    }
+
     try {
-      await createNutritionRecord({ ...newRecord, userId });
-      fetchNutritionRecordsByDate(); // Actualiza la lista de registros para la fecha seleccionada
+      await createNutritionRecord({ 
+        ...newRecord, 
+        userId,
+        date: formatDateForBackend(newRecord.date) // Asegurar formato correcto
+      });
+      fetchNutritionRecords(); // Actualiza la lista de registros
       setNewRecord({ calories: '', protein: '', carbohydrates: '', fats: '', date: '', mealDescription: '' });
     } catch (error) {
-      console.error('Error creando registro de nutrición:', error);
+      console.error('Error creating nutrition record:', error);
     }
   };
 
   const handleUpdateRecord = async (id) => {
+    // Puedes implementar una lógica similar de validación aquí si es necesario
     try {
       await updateNutritionRecord(id, newRecord);
-      fetchNutritionRecordsByDate(); // Actualiza la lista de registros después de la actualización
+      fetchNutritionRecords(); // Actualiza la lista de registros después de la actualización
     } catch (error) {
-      console.error('Error actualizando registro de nutrición:', error);
+      console.error('Error updating nutrition record:', error);
     }
   };
 
   const handleDeleteRecord = async (id) => {
     try {
       await deleteNutritionRecord(id);
-      fetchNutritionRecordsByDate(); // Actualiza la lista de registros después de la eliminación
+      fetchNutritionRecords(); // Actualiza la lista de registros después de la eliminación
     } catch (error) {
-      console.error('Error eliminando registro de nutrición:', error);
+      console.error('Error deleting nutrition record:', error);
     }
   };
 
@@ -86,44 +113,110 @@ const NutritionComponent = ({ userId }) => {
           Volver al Menú
         </button>
 
-        {/* Campo de filtro de fecha */}
-        <div className="filter-container">
-          <label>Filtrar por fecha:</label>
-          <input 
-            type="date" 
-            value={filterDate} 
-            onChange={(e) => setFilterDate(e.target.value)} 
-          />
-          <button onClick={fetchNutritionRecordsByDate}>Ver Alimentos del Día</button>
-        </div>
-
         {/* Formulario para agregar un nuevo registro */}
-        <div>
+        <div className="form-container">
           <h3>Agregar Registro</h3>
-          <input name="calories" placeholder="Calorías" value={newRecord.calories} onChange={handleChange} />
-          <input name="protein" placeholder="Proteínas" value={newRecord.protein} onChange={handleChange} />
-          <input name="carbohydrates" placeholder="Carbohidratos" value={newRecord.carbohydrates} onChange={handleChange} />
-          <input name="fats" placeholder="Grasas" value={newRecord.fats} onChange={handleChange} />
-          <input 
-            type="date" 
-            name="date" 
-            placeholder="Fecha" 
-            value={newRecord.date} 
-            onChange={handleChange} 
-          />
-          <input name="mealDescription" placeholder="Descripción de la comida" value={newRecord.mealDescription} onChange={handleChange} />
-          <button onClick={handleCreateRecord}>Agregar</button>
+          <form onSubmit={(e) => { e.preventDefault(); handleCreateRecord(); }}>
+            <div className="form-group">
+              <label htmlFor="mealDescription">Descripción de la Comida:</label>
+              <input 
+                type="text" 
+                id="mealDescription"
+                name="mealDescription" 
+                placeholder="Descripción de la comida" 
+                value={newRecord.mealDescription} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="date">Fecha:</label>
+              <input 
+                type="date" 
+                id="date"
+                name="date" 
+                placeholder="Fecha" 
+                value={newRecord.date} 
+                onChange={handleChange} 
+                required 
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="calories">Calorías:</label>
+              <input 
+                type="number" 
+                id="calories"
+                name="calories" 
+                placeholder="Calorías" 
+                value={newRecord.calories} 
+                onChange={handleChange} 
+                min="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="protein">Proteínas (g):</label>
+              <input 
+                type="number" 
+                id="protein"
+                name="protein" 
+                placeholder="Proteínas" 
+                value={newRecord.protein} 
+                onChange={handleChange} 
+                min="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="carbohydrates">Carbohidratos (g):</label>
+              <input 
+                type="number" 
+                id="carbohydrates"
+                name="carbohydrates" 
+                placeholder="Carbohidratos" 
+                value={newRecord.carbohydrates} 
+                onChange={handleChange} 
+                min="0"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="fats">Grasas (g):</label>
+              <input 
+                type="number" 
+                id="fats"
+                name="fats" 
+                placeholder="Grasas" 
+                value={newRecord.fats} 
+                onChange={handleChange} 
+                min="0"
+              />
+            </div>
+
+            <button type="submit" className="submit-button">Agregar</button>
+          </form>
         </div>
 
         {/* Lista de registros de nutrición */}
-        <ul>
+        <ul className="records-list">
           {nutritionRecords.map((record) => (
             <li key={record.id} className="record-item">
-              <p>{record.mealDescription}</p>
-              <p>Calorías: {record.calories}, Proteínas: {record.protein}, Carbohidratos: {record.carbohydrates}, Grasas: {record.fats}</p>
-              <p>Fecha: {formatDate(record.date)}</p>
-              <button onClick={() => handleUpdateRecord(record.id)}>Actualizar</button>
-              <button onClick={() => handleDeleteRecord(record.id)}>Eliminar</button>
+              <div className="record-details">
+                <p><strong>Descripción:</strong> {record.mealDescription}</p>
+                <p>
+                  <strong>Calorías:</strong> {record.calories}, 
+                  <strong> Proteínas:</strong> {record.protein}g, 
+                  <strong> Carbohidratos:</strong> {record.carbohydrates}g, 
+                  <strong> Grasas:</strong> {record.fats}g
+                </p>
+                <p><strong>Fecha:</strong> {formatDate(record.date)}</p>
+              </div>
+              <div className="record-actions">
+                <button onClick={() => handleUpdateRecord(record.id)} className="update-button">Actualizar</button>
+                <button onClick={() => handleDeleteRecord(record.id)} className="delete-button">Eliminar</button>
+              </div>
             </li>
           ))}
         </ul>

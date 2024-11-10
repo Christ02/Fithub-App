@@ -1,46 +1,163 @@
 /* src/components/exercise/ExerciseComponent.css */
 
+/* Centrar el contenedor en la pantalla */
+.exercise-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-color: #f0f2f5; /* Color de fondo para diferenciar */
+}
+
 .exercise-container {
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 800px; /* Aumentado para acomodar más contenido */
+    width: 100%; /* Asegura que no exceda el 100% del contenedor */
     padding: 2rem;
     background-color: #fff;
-    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: left;
+}
+
+h2 {
     text-align: center;
-  }
-  
-  .filter-section,
-  .form-section {
+    color: #333;
+}
+
+h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.section-info,
+.section-records {
     margin-bottom: 2rem;
-  }
-  
-  input,
-  button {
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+input,
+select {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
-    border-radius: 6px;
     border: 1px solid #ddd;
+    border-radius: 6px;
     box-sizing: border-box;
-  }
-  
-  button {
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
     background-color: #007bff;
     color: #fff;
+    border: none;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: bold;
-    border: none;
-  }
-  
-  button:hover {
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  .record-item {
+}
+
+.exercise-container .record-item {
     padding: 1rem;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-  
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.exercise-container .record-item p {
+    margin: 0.5rem 0;
+}
+
+.exercise-container .record-item .record-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.exercise-container .record-item .record-actions button {
+    width: 48%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.update-button {
+    background-color: #ffa500; /* Naranja */
+}
+
+.update-button:hover {
+    background-color: #e69500;
+}
+
+.delete-button {
+    background-color: #e74c3c; /* Rojo */
+}
+
+.delete-button:hover {
+    background-color: #d94333;
+}
+
+.back-button {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para la lista de registros */
+.records-list {
+    list-style: none;
+    padding: 0;
+}
+
+.records-list .record-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.record-actions button {
+    /* Hereda estilos de los botones principales */
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .exercise-container {
+        padding: 1rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}

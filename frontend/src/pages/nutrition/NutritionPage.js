@@ -1,14 +1,14 @@
 // src/pages/nutrition/NutritionPage.js
 import React from 'react';
 import NutritionComponent from '../../components/Nutrition/NutritionComponent';
-
+import Navbar from '../../components/Navbar/Navbar';
 
 const NutritionPage = () => {
   const userId = 4; // Cambia esto con el ID del usuario actualmente logueado
 
   return (
     <div>
-      <h1>Nutrición</h1>
+      <Navbar />
       <NutritionComponent userId={userId} />
     </div>
   );

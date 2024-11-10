@@ -4,7 +4,7 @@ const db = require('../config/db');
 const createSleepRecord = (req, res) => {
   const { userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date } = req.body;
   const sql = 'INSERT INTO sleep (userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date) VALUES (?, ?, ?, ?, ?, ?)';
-  
+
   db.query(sql, [userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -13,41 +13,38 @@ const createSleepRecord = (req, res) => {
   });
 };
 
+// Obtener todos los registros de sueño de un usuario
 const getAllSleepRecords = (req, res) => {
   const { userId } = req.params;
   const sql = 'SELECT * FROM sleep WHERE userId = ?';
   db.query(sql, [userId], (err, results) => {
-    if (err) throw err;
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
     res.json(results);
   });
 };
 
-const updateSleepRecord = (req, res) => {
-  const { id } = req.params;
-  const { bedTime, wakeUpTime, sleepDuration, sleepQuality } = req.body;
-  
-  const sql = 'UPDATE sleep SET bedTime = ?, wakeUpTime = ?, sleepDuration = ?, sleepQuality = ? WHERE id = ?';
-  
-  db.query(sql, [bedTime, wakeUpTime, sleepDuration, sleepQuality, id], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.status(200).json({ message: 'Registro de sueño actualizado' });
-  });
-};
+// Obtener registros de sueño por usuario y fecha
+const getSleepRecordsByDate = (req, res) => {
+  const { userId } = req.params;
+  const { date } = req.query;
 
-const deleteSleepRecord = (req, res) => {
-  const { id } = req.params;
-  const sql = 'DELETE FROM sleep WHERE id = ?';
-  db.query(sql, [id], (err, result) => {
-    if (err) throw err;
-    res.send('Registro de sueño eliminado');
+  const sql = 'SELECT * FROM sleep WHERE userId = ? AND DATE(date) = ?';
+
+  db.query(sql, [userId, date], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error al obtener los registros de sueño' });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron registros de sueño para esta fecha' });
+    }
+    res.json(results);
   });
 };
 
 module.exports = {
   createSleepRecord,
   getAllSleepRecords,
-  updateSleepRecord,
-  deleteSleepRecord,
+  getSleepRecordsByDate,
 };

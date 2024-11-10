@@ -1,30 +1,35 @@
-// src/components/Navbar.js
+// src/components/Navbar/Navbar.js
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { isLoggedIn, logout } from '../../utils/auth';  
+import { NavLink } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">Fithub</Link>  {/* Nombre de la app */}
+      <div className="navbar-logo">
+        <h1>Fithub</h1>
       </div>
-      <ul className="navbar-menu">
-        {isLoggedIn() ? (
-          <>
-            {/* Si el usuario está autenticado */}
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/profile">Mi Perfil</Link></li>
-            <li><button onClick={logout}>Cerrar Sesión</button></li>
-          </>
-        ) : (
-          <>
-            {/* Si el usuario no está autenticado */}
-            <li><Link to="/login">Iniciar Sesión</Link></li>
-            <li><Link to="/register">Registrarse</Link></li>
-          </>
-        )}
+      <ul className="navbar-links">
+        <li>
+          <NavLink to="/dashboard" activeClassName="active-link" exact>
+            Dashboard
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/exercise" activeClassName="active-link">
+            Ejercicio
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/nutrition" activeClassName="active-link">
+            Nutrición
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/sleep" activeClassName="active-link">
+            Sueño
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

@@ -1,55 +1,187 @@
+/* src/components/sleep/SleepComponent.css */
+
+/* Centrar el contenedor en la pantalla */
+.sleep-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-color: #f0f2f5; /* Color de fondo para diferenciar */
+}
+
 .sleep-container {
-    max-width: 500px;
-    margin: 0 auto;
+    max-width: 800px; /* Aumentado para acomodar más contenido */
+    width: 100%; /* Asegura que no exceda el 100% del contenedor */
     padding: 2rem;
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
-  }
-  
-  h2 {
+    text-align: left;
+}
+
+h2 {
     text-align: center;
     color: #333;
-  }
-  
-  .form-section, .calculated-section {
-    margin-top: 1rem;
-  }
-  
-  label {
+}
+
+h3 {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #666;
+}
+
+.section-info,
+.section-records {
+    margin-bottom: 2rem;
+}
+
+label {
     display: block;
-    font-weight: bold;
     margin-bottom: 0.5rem;
-  }
-  
-  input {
+    font-weight: bold;
+    color: #333;
+}
+
+input,
+select {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 6px;
-  }
-  
-  button {
+    box-sizing: border-box;
+}
+
+button {
     width: 100%;
-    padding: 0.8rem;
+    padding: 1rem;
     background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
-  }
-  
-  button:hover {
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
     background-color: #0056b3;
-  }
-  
-  .calculated-section h3 {
-    color: #007bff;
-  }
-  
-  .calculated-section p {
+}
+
+.cancel-button {
+    background-color: #6c757d; /* Gris */
+    margin-top: 0.5rem;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+}
+
+.sleep-container .record-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.sleep-container .record-item p {
     margin: 0.5rem 0;
-  }
-  
+}
+
+.sleep-container .record-item .record-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.sleep-container .record-item .record-actions button {
+    width: 48%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.update-button {
+    background-color: #ffa500; /* Naranja */
+}
+
+.update-button:hover {
+    background-color: #e69500;
+}
+
+.delete-button {
+    background-color: #e74c3c; /* Rojo */
+}
+
+.delete-button:hover {
+    background-color: #d94333;
+}
+
+.back-button {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para la lista de registros */
+.records-list {
+    list-style: none;
+    padding: 0;
+}
+
+.records-list .record-item {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .sleep-container {
+        padding: 1rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilos para mensajes de éxito y error */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}

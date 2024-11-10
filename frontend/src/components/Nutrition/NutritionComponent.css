@@ -1,3 +1,5 @@
+/* src/pages/dashboard/NutritionComponent.css */
+
 /* Centrar el contenedor en la pantalla */
 .nutrition-wrapper {
     display: flex;
@@ -8,7 +10,7 @@
 }
 
 .nutrition-container {
-    max-width: 500px;
+    max-width: 800px; /* Aumentado para acomodar más contenido */
     width: 100%; /* Asegura que no exceda el 100% del contenedor */
     padding: 2rem;
     background-color: #fff;
@@ -64,6 +66,7 @@ button {
     border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -82,23 +85,37 @@ button:hover {
     margin: 0.5rem 0;
 }
 
-.nutrition-container .record-item button {
+.nutrition-container .record-item .record-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nutrition-container .record-item .record-actions button {
     width: 48%;
-    margin-right: 2%;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.3s ease;
 }
 
-.nutrition-container .record-item button:last-child {
-    margin-right: 0;
+.update-button {
+    background-color: #ffa500; /* Naranja */
 }
 
-.nutrition-container a {
-    color: #007bff;
+.update-button:hover {
+    background-color: #e69500;
 }
 
-.nutrition-container a:hover {
-    text-decoration: underline;
+.delete-button {
+    background-color: #e74c3c; /* Rojo */
 }
 
+.delete-button:hover {
+    background-color: #d94333;
+}
 
 .back-button {
     margin-bottom: 1rem;
@@ -108,9 +125,39 @@ button:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .back-button:hover {
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
     background-color: #0056b3;
-  }
-  
+}
+
+/* Estilos para la lista de registros */
+.records-list {
+    list-style: none;
+    padding: 0;
+}
+
+.records-list .record-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.record-actions button {
+    /* Hereda estilos de los botones principales */
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .nutrition-container {
+        padding: 1rem;
+    }
+
+    h3 {
+        font-size: 1rem;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}

@@ -1,52 +1,47 @@
-/* Estilos actualizados para el navbar */
+/* src/components/Navbar/Navbar.css */
+
 .navbar {
-    display: flex;
-    justify-content: space-between;  /* Distribuye los elementos del navbar */
-    align-items: center;
-    padding: 1rem;
-    background-color: #007bff;  /* Color de fondo */
-    color: white;
-  }
-  
-  .navbar-brand {
-    font-size: 1.5rem;
-    color: white;
-  }
-  
-  .navbar-menu {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;  /* Aumenta el espacio entre los enlaces */
-  }
-  
-  .navbar-menu li {
-    display: inline;
-  }
-  
-  .navbar-menu a,
-  .navbar-menu button {
-    text-decoration: none;
-    color: white;
-    font-size: 1rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .navbar-menu a:hover,
-  .navbar-menu button:hover {
-    text-decoration: underline;
-  }
-  
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  button:hover {
-    background-color: #ff1a1a;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-logo h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #fff;
+}
+
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.navbar-links a:hover,
+.navbar-links .active-link {
+  background-color: #0056b3;
+  border-radius: 8px;
+  color: #fff;
+}
