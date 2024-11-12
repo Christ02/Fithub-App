@@ -1,50 +1,40 @@
-// controllers/SleepController.js
-const db = require('../config/db');
+const SleepRepository = require('../repositories/SleepRepository');
 
-const createSleepRecord = (req, res) => {
-  const { userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date } = req.body;
-  const sql = 'INSERT INTO sleep (userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date) VALUES (?, ?, ?, ?, ?, ?)';
-
-  db.query(sql, [userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date], (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+const createSleepRecord = async (req, res) => {
+  try {
+    await SleepRepository.createSleepRecord(req.body);
     res.status(201).json({ message: 'Registro de sueño agregado' });
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Obtener todos los registros de sueño de un usuario
-const getAllSleepRecords = (req, res) => {
-  const { userId } = req.params;
-  const sql = 'SELECT * FROM sleep WHERE userId = ?';
-  db.query(sql, [userId], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
+const getAllSleepRecords = async (req, res) => {
+  try {
+    const records = await SleepRepository.getAllSleepRecords(req.params.userId);
+    if (records.length === 0) return res.status(404).json({ message: 'No se encontraron registros de sueño para este usuario' });
+    res.json(records);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-// Obtener registros de sueño por usuario y fecha
-const getSleepRecordsByDate = (req, res) => {
-  const { userId } = req.params;
-  const { date } = req.query;
-
-  const sql = 'SELECT * FROM sleep WHERE userId = ? AND DATE(date) = ?';
-
-  db.query(sql, [userId, date], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error al obtener los registros de sueño' });
-    }
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'No se encontraron registros de sueño para esta fecha' });
-    }
-    res.json(results);
-  });
+const updateSleepRecord = async (req, res) => {
+  try {
+    await SleepRepository.updateSleepRecord(req.params.id, req.body);
+    res.status(200).json({ message: 'Registro de sueño actualizado exitosamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
-module.exports = {
-  createSleepRecord,
-  getAllSleepRecords,
-  getSleepRecordsByDate,
+const deleteSleepRecord = async (req, res) => {
+  try {
+    await SleepRepository.deleteSleepRecord(req.params.id);
+    res.status(200).json({ message: 'Registro de sueño eliminado exitosamente' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
+
+module.exports = { createSleepRecord, getAllSleepRecords, updateSleepRecord, deleteSleepRecord };
