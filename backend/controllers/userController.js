@@ -73,9 +73,10 @@ exports.getUserByEmail = async (req, res) => {
 };
 
 // Obtener todos los usuarios
+// Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await UserRepository.getAllUsers();
+    const users = await UserRepository.getAllUsers(); // Llama a UserRepository.getAllUsers, no a exports.getAllUsers
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
