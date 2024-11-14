@@ -1,30 +1,22 @@
-const db = require('../config/db');
+// repositories/SleepRepository.js
+const Sleep = require('../models/Sleep');
 
 class SleepRepository {
   async createSleepRecord(data) {
-    const { userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date } = data;
-    const sql = 'INSERT INTO sleep (userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date) VALUES (?, ?, ?, ?, ?, ?)';
-    const [result] = await db.promise().query(sql, [userId, bedTime, wakeUpTime, sleepDuration, sleepQuality, date]);
-    return result;
+    const sleepRecord = new Sleep(data);
+    return await sleepRecord.save();
   }
 
   async getAllSleepRecords(userId) {
-    const sql = 'SELECT * FROM sleep WHERE userId = ?';
-    const [results] = await db.promise().query(sql, [userId]);
-    return results;
+    return await Sleep.find({ userId });
   }
 
   async updateSleepRecord(id, data) {
-    const { bedTime, wakeUpTime, sleepDuration, sleepQuality, date } = data;
-    const sql = 'UPDATE sleep SET bedTime = ?, wakeUpTime = ?, sleepDuration = ?, sleepQuality = ?, date = ? WHERE id = ?';
-    const [result] = await db.promise().query(sql, [bedTime, wakeUpTime, sleepDuration, sleepQuality, date, id]);
-    return result;
+    return await Sleep.findByIdAndUpdate(id, data, { new: true });
   }
 
   async deleteSleepRecord(id) {
-    const sql = 'DELETE FROM sleep WHERE id = ?';
-    const [result] = await db.promise().query(sql, [id]);
-    return result;
+    return await Sleep.findByIdAndDelete(id);
   }
 }
 
