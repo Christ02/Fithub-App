@@ -4,7 +4,7 @@ import NutritionComponent from '../../components/Nutrition/NutritionComponent';
 import Navbar from '../../components/Navbar/Navbar';
 
 const NutritionPage = () => {
-  const userId = 4; // Cambia esto con el ID del usuario actualmente logueado
+  const userId = 1; // Cambia esto con el ID del usuario actualmente logueado
 
   return (
     <div>

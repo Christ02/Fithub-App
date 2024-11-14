@@ -1,19 +1,18 @@
-const mysql = require('mysql2');
+// config/db.js
+const mongoose = require('mongoose');
 
-const db = mysql.createConnection({
-    host: 'localhost',  
-    user: 'root',
-    password: 'Lolipop1!',  
-    database: 'fithub_app',
-    port: 3307
-});
-
-db.connect((err) => {
-  if (err) {
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://root:Lolipop1!@localhost:27017/fithub_app', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      authSource: 'admin', 
+    });
+    console.log('Conectado a la base de datos MongoDB de Docker');
+  } catch (err) {
     console.error('Error conectando a la base de datos:', err);
-    return;
+    process.exit(1); 
   }
-  console.log('Conectado a la base de datos MySQL de Docker');
-});
+};
 
-module.exports = db;
+module.exports = connectDB;

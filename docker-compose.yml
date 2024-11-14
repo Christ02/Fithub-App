@@ -1,14 +1,16 @@
+version: '3.8'
+
 services:
-  mysql:
-    image: mysql:8.0  
-    container_name: fithub-mysql
+  mongodb:
+    image: mongo:latest
+    container_name: fithub-mongodb
     environment:
-      MYSQL_ROOT_PASSWORD: Lolipop1!  # Solo se necesita esta variable para el usuario root
-      MYSQL_DATABASE: fithub_app  # Nombre de la base de datos
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123a
     ports:
-      - "3307:3306"  
+      - "27017:27017"
     volumes:
-      - mysql_data:/var/lib/mysql  # Almacenar los datos en la máquina local
+      - mongo_data:/data/db
     networks:
       - fithub-network
 
@@ -17,4 +19,4 @@ networks:
     driver: bridge
 
 volumes:
-  mysql_data:
+  mongo_data:

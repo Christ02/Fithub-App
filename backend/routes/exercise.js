@@ -4,7 +4,7 @@ const router = express.Router();
 const {
   createExerciseRecord,
   getExerciseRecords,
-  getExerciseRecordsByDate,  // Importar la nueva función
+  getExerciseRecordsByDate,
   updateExerciseRecord,
   deleteExerciseRecord
 } = require('../controllers/ExerciseController');

@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./config/db');
+const connectDB = require('./config/db'); // Nueva conexión para MongoDB
 const exerciseRoutes = require('./routes/exercise');
 const nutritionRoutes = require('./routes/nutrition');
 const sleepRoutes = require('./routes/sleep');
@@ -9,18 +9,11 @@ const userRoutes = require('./routes/users');
 const app = express();
 
 // Middleware
-app.use(express.json());  // Se usa express.json() en lugar de body-parser
-app.use(cors());  
+app.use(express.json());
+app.use(cors());
 
-// Verificar conexión a la base de datos
-db.connect((err) => {
-  if (err) {
-    console.error('Error conectando a la base de datos:', err.message);
-    process.exit(1); 
-  } else {
-    console.log('Conexión a la base de datos establecida');
-  }
-});
+// Conectar a la base de datos MongoDB
+connectDB(); // Llama a la función para conectar a MongoDB
 
 // Rutas
 app.use('/exercise', exerciseRoutes);
@@ -30,7 +23,7 @@ app.use('/users', userRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-  res.send('API de Fithub funcionando');
+  res.send('API de Fithub funcionando con MongoDB');
 });
 
 // Middleware para manejar errores globales

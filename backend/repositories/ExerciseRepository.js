@@ -1,36 +1,26 @@
-const db = require('../config/db');
+// repositories/ExerciseRepository.js
+const Exercise = require('../models/Exercise');
 
 class ExerciseRepository {
   async createExerciseRecord(data) {
-    const { userId, exerciseType, duration, caloriesBurned, date } = data;
-    const sql = 'INSERT INTO exercise (userId, exerciseType, duration, caloriesBurned, date) VALUES (?, ?, ?, ?, ?)';
-    const [result] = await db.promise().query(sql, [userId, exerciseType, duration, caloriesBurned, date]);
-    return result;
+    const exercise = new Exercise(data);
+    return await exercise.save();
   }
 
   async getExerciseRecords(userId) {
-    const sql = 'SELECT * FROM exercise WHERE userId = ?';
-    const [results] = await db.promise().query(sql, [userId]);
-    return results;
+    return await Exercise.find({ userId });
   }
 
   async getExerciseRecordsByDate(userId, date) {
-    const sql = 'SELECT * FROM exercise WHERE userId = ? AND DATE(date) = ?';
-    const [results] = await db.promise().query(sql, [userId, date]);
-    return results;
+    return await Exercise.find({ userId, date });
   }
 
   async updateExerciseRecord(id, data) {
-    const { exerciseType, duration, caloriesBurned, date } = data;
-    const sql = 'UPDATE exercise SET exerciseType = ?, duration = ?, caloriesBurned = ?, date = ? WHERE id = ?';
-    const [result] = await db.promise().query(sql, [exerciseType, duration, caloriesBurned, date, id]);
-    return result;
+    return await Exercise.findByIdAndUpdate(id, data, { new: true });
   }
 
   async deleteExerciseRecord(id) {
-    const sql = 'DELETE FROM exercise WHERE id = ?';
-    const [result] = await db.promise().query(sql, [id]);
-    return result;
+    return await Exercise.findByIdAndDelete(id);
   }
 }
 
