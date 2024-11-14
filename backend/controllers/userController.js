@@ -1,3 +1,4 @@
+// controllers/userController.js
 const UserRepository = require('../repositories/UserRepository');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -27,7 +28,7 @@ exports.createUser = async (req, res) => {
     if (existingUser) return res.status(400).json({ success: false, message: 'El usuario ya existe' });
 
     const user = await UserRepository.createUser(req.body);
-    const token = createToken(user.insertId);
+    const token = createToken(user._id);
     res.status(201).json({ success: true, message: 'Usuario creado exitosamente', token });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -43,7 +44,7 @@ exports.loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) return res.status(400).json({ success: false, message: 'Credenciales incorrectas' });
 
-    const token = createToken(user.id);
+    const token = createToken(user._id);
     res.status(200).json({ success: true, message: 'Inicio de sesión exitoso', token });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -61,22 +62,10 @@ exports.getUserById = async (req, res) => {
   }
 };
 
-// Obtener usuario por email
-exports.getUserByEmail = async (req, res) => {
-  try {
-    const user = await UserRepository.findUserByEmail(req.params.email);
-    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-// Obtener todos los usuarios
 // Obtener todos los usuarios
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await UserRepository.getAllUsers(); // Llama a UserRepository.getAllUsers, no a exports.getAllUsers
+    const users = await UserRepository.getAllUsers();
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -86,7 +75,8 @@ exports.getAllUsers = async (req, res) => {
 // Actualizar usuario por ID
 exports.updateUserById = async (req, res) => {
   try {
-    await UserRepository.updateUserById(req.params.id, req.body);
+    const updatedUser = await UserRepository.updateUserById(req.params.id, req.body);
+    if (!updatedUser) return res.status(404).json({ message: 'Usuario no encontrado' });
     res.status(200).json({ message: 'Usuario actualizado exitosamente' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -96,7 +86,8 @@ exports.updateUserById = async (req, res) => {
 // Eliminar usuario por ID
 exports.deleteUserById = async (req, res) => {
   try {
-    await UserRepository.deleteUserById(req.params.id);
+    const deletedUser = await UserRepository.deleteUserById(req.params.id);
+    if (!deletedUser) return res.status(404).json({ message: 'Usuario no encontrado' });
     res.status(200).json({ message: 'Usuario eliminado exitosamente' });
   } catch (err) {
     res.status(500).json({ error: err.message });

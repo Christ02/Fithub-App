@@ -1,3 +1,4 @@
+// routes/users.js
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
@@ -19,9 +20,6 @@ router.put('/:id', userController.updateUserById);
 
 // Eliminar un usuario por su ID
 router.delete('/:id', userController.deleteUserById);
-
-// Obtener usuario por email
-router.get('/email/:email', userController.getUserByEmail);
 
 // Obtener todos los usuarios
 router.get('/', userController.getAllUsers);

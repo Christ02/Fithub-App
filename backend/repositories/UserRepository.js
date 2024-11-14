@@ -1,60 +1,34 @@
-const db = require('../config/db');
-const bcrypt = require('bcrypt');
+// repositories/UserRepository.js
+const User = require('../models/User');
 
 class UserRepository {
-  
-  // Crear un nuevo usuario
   async createUser(data) {
-    const { name, email, password, dateOfBirth, gender, weight, height, dailyCaloriesGoal, dailyProteinGoal, dailyCarbohydratesGoal, dailyFatsGoal } = data;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const sql = `
-      INSERT INTO users (name, email, password, dateOfBirth, gender, weight, height, dailyCaloriesGoal, dailyProteinGoal, dailyCarbohydratesGoal, dailyFatsGoal, createdAt)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-    `;
-    const [result] = await db.promise().query(sql, [name, email, hashedPassword, dateOfBirth, gender, weight, height, dailyCaloriesGoal, dailyProteinGoal, dailyCarbohydratesGoal, dailyFatsGoal]);
-    return result;
+    const user = new User(data);
+    return await user.save();
   }
 
-  // Buscar usuario por email
   async findUserByEmail(email) {
-    const sql = 'SELECT * FROM users WHERE email = ?';
-    const [user] = await db.promise().query(sql, [email]);
-    return user[0];
+    return await User.findOne({ email });
   }
 
-  // Obtener usuario por ID
   async getUserById(id) {
-    const sql = 'SELECT * FROM users WHERE id = ?';
-    const [result] = await db.promise().query(sql, [id]);
-    return result[0];
+    return await User.findById(id);
   }
 
-  // Obtener todos los usuarios
   async getAllUsers() {
-    const sql = 'SELECT * FROM users';
-    const [users] = await db.promise().query(sql);  // No llamar a UserRepository.getAllUsers(), solo ejecuta la consulta
-    return users;
+    return await User.find();
   }
 
-  // Actualizar usuario por ID
   async updateUserById(id, data) {
-    const { name, email, password, dateOfBirth, gender, weight, height, dailyCaloriesGoal, dailyProteinGoal, dailyCarbohydratesGoal, dailyFatsGoal } = data;
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const sql = `
-      UPDATE users SET name = ?, email = ?, password = ?, dateOfBirth = ?, gender = ?, weight = ?, height = ?, dailyCaloriesGoal = ?, dailyProteinGoal = ?, dailyCarbohydratesGoal = ?, dailyFatsGoal = ?
-      WHERE id = ?
-    `;
-    const [result] = await db.promise().query(sql, [name, email, hashedPassword, dateOfBirth, gender, weight, height, dailyCaloriesGoal, dailyProteinGoal, dailyCarbohydratesGoal, dailyFatsGoal, id]);
-    return result;
+    if (data.password) {
+      const salt = await bcrypt.genSalt(10);
+      data.password = await bcrypt.hash(data.password, salt);
+    }
+    return await User.findByIdAndUpdate(id, data, { new: true });
   }
 
-  // Eliminar usuario por ID
   async deleteUserById(id) {
-    const sql = 'DELETE FROM users WHERE id = ?';
-    const [result] = await db.promise().query(sql, [id]);
-    return result;
+    return await User.findByIdAndDelete(id);
   }
 }
 
