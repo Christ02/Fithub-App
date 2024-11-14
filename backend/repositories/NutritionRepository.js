@@ -1,36 +1,26 @@
-const db = require('../config/db');
+// repositories/NutritionRepository.js
+const Nutrition = require('../models/Nutrition');
 
 class NutritionRepository {
   async createNutritionRecord(data) {
-    const { userId, calories, protein, carbohydrates, fats, date, mealDescription } = data;
-    const sql = 'INSERT INTO nutritionalcount (userId, calories, protein, carbohydrates, fats, date, mealDescription) VALUES (?, ?, ?, ?, ?, ?, ?)';
-    const [result] = await db.promise().query(sql, [userId, calories, protein, carbohydrates, fats, date, mealDescription]);
-    return result;
+    const nutritionRecord = new Nutrition(data);
+    return await nutritionRecord.save();
   }
 
   async getNutritionRecords(userId) {
-    const sql = 'SELECT * FROM nutritionalcount WHERE userId = ?';
-    const [results] = await db.promise().query(sql, [userId]);
-    return results;
+    return await Nutrition.find({ userId });
   }
 
   async getNutritionRecordsByDate(userId, date) {
-    const sql = 'SELECT * FROM nutritionalcount WHERE userId = ? AND DATE(date) = ?';
-    const [results] = await db.promise().query(sql, [userId, date]);
-    return results;
+    return await Nutrition.find({ userId, date });
   }
 
   async updateNutritionRecord(id, data) {
-    const { calories, protein, carbohydrates, fats, date, mealDescription } = data;
-    const sql = 'UPDATE nutritionalcount SET calories = ?, protein = ?, carbohydrates = ?, fats = ?, date = ?, mealDescription = ? WHERE id = ?';
-    const [result] = await db.promise().query(sql, [calories, protein, carbohydrates, fats, date, mealDescription, id]);
-    return result;
+    return await Nutrition.findByIdAndUpdate(id, data, { new: true });
   }
 
   async deleteNutritionRecord(id) {
-    const sql = 'DELETE FROM nutritionalcount WHERE id = ?';
-    const [result] = await db.promise().query(sql, [id]);
-    return result;
+    return await Nutrition.findByIdAndDelete(id);
   }
 }
 
