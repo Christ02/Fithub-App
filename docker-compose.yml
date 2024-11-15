@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
-  mongodb:
+  mongo:
     image: mongo:latest
-    container_name: fithub-mongodb
+    container_name: fithub-mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123a
@@ -11,6 +9,20 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    networks:
+      - fithub-network
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: fithub-mongo-express
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123a
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: user  
+      ME_CONFIG_BASICAUTH_PASSWORD: lol1  
+    ports:
+      - "8081:8081"  # Asegúrate de que esta línea esté fuera de environment
     networks:
       - fithub-network
 
